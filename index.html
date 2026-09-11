@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>영어 진단평가</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="station is-welcome">
+    <header class="mast">
+      <div class="mast-dot"></div>
+      <div class="board-stack">
+        <div class="flap-line">
+          <span class="row-emo" aria-hidden="true">⏰</span>
+          <div id="clock-board" class="flap-row" aria-label="clock"></div>
+        </div>
+        <div class="flap-line">
+          <span class="row-emo" aria-hidden="true">📝</span>
+          <div id="title-board" class="flap-row" aria-label="진단평가"></div>
+        </div>
+        <div class="flap-line">
+          <span class="row-emo" aria-hidden="true">🏫</span>
+          <div id="status-board" class="flap-row" aria-label="우리학원"></div>
+        </div>
+      </div>
+      <div class="mast-dot"></div>
+    </header>
+
+    <main class="bezel">
+      <section id="screen-welcome" class="screen is-on" aria-label="대문">
+        <div class="welcome">
+          <div class="welcome-boards">
+            <div id="welcome-hello" class="flap-row" aria-label="WELCOME"></div>
+            <div id="welcome-academy" class="flap-row" aria-label="우리학원"></div>
+            <div id="welcome-english" class="flap-row" aria-label="ENGLISH"></div>
+          </div>
+          <button type="button" id="btn-enter" class="cta">📝 진단평가 입장</button>
+        </div>
+      </section>
+
+      <section id="screen-start" class="screen" hidden aria-label="시작">
+        <p class="panel-kicker">✨ 진단평가 · 16문항</p>
+        <h1 class="panel-title">영어 진단평가</h1>
+
+        <label class="field">
+          <span class="field-label">👤 이름</span>
+          <input id="input-name" class="field-input" type="text" maxlength="20" placeholder="이름" autocomplete="name" />
+        </label>
+
+        <p class="field-label">🎒 학년</p>
+        <div class="grade-grid" role="group" aria-label="학년">
+          <button type="button" class="grade-btn" data-grade="m1"><span class="grade-ko">중1</span><span class="grade-en">MIDDLE 1</span></button>
+          <button type="button" class="grade-btn" data-grade="m2"><span class="grade-ko">중2</span><span class="grade-en">MIDDLE 2</span></button>
+          <button type="button" class="grade-btn" data-grade="m3"><span class="grade-ko">중3</span><span class="grade-en">MIDDLE 3</span></button>
+          <button type="button" class="grade-btn" data-grade="h1"><span class="grade-ko">고1</span><span class="grade-en">HIGH 1</span></button>
+          <button type="button" class="grade-btn" data-grade="h2"><span class="grade-ko">고2</span><span class="grade-en">HIGH 2</span></button>
+          <button type="button" class="grade-btn" data-grade="h3"><span class="grade-ko">고3</span><span class="grade-en">HIGH 3</span></button>
+        </div>
+
+        <button type="button" id="btn-start" class="cta">🚀 시험 시작</button>
+        <p id="start-error" class="error" hidden></p>
+      </section>
+
+      <section id="screen-quiz" class="screen" hidden aria-label="시험">
+        <div class="quiz-meta">
+          <div>
+            <span class="meta-label">PROGRESS</span>
+            <div id="progress-board" class="flap-row"></div>
+          </div>
+          <div>
+            <span class="meta-label">SECTION</span>
+            <div id="section-board" class="flap-row"></div>
+          </div>
+        </div>
+        <p id="passage" class="passage" hidden></p>
+        <p id="prompt" class="prompt"></p>
+        <div id="choices" class="choices"></div>
+      </section>
+
+      <section id="screen-result" class="screen" hidden aria-label="결과">
+        <p class="panel-kicker">🎉 결과</p>
+        <div class="score-block">
+          <span class="meta-label">SCORE</span>
+          <div id="score-board" class="flap-row"></div>
+          <p id="score-sub" class="score-sub"></p>
+        </div>
+        <div id="section-scores" class="section-scores"></div>
+        <div id="comments" class="comments"></div>
+
+        <form id="consult-form" class="consult">
+          <p class="panel-kicker">💬 상담 신청</p>
+          <p class="panel-help">틀린 문항 해설은 위와 같아요. 상담을 원하면 번호를 입력해 주세요.</p>
+          <label class="field">
+            <span class="field-label">👤 이름</span>
+            <input id="consult-name" class="field-input" name="name" required maxlength="20" />
+          </label>
+          <label class="field">
+            <span class="field-label">🎒 학년</span>
+            <input id="consult-grade" class="field-input" name="grade" required readonly />
+          </label>
+          <label class="field">
+            <span class="field-label">📱 번호</span>
+            <input id="consult-phone" class="field-input" name="phone" required inputmode="tel" placeholder="010-0000-0000" autocomplete="tel" />
+          </label>
+          <button type="submit" class="cta">💬 상담 신청</button>
+          <p id="consult-msg" class="consult-msg" hidden></p>
+        </form>
+      </section>
+    </main>
+
+    <footer class="rail">🏫 우리학원 진단평가</footer>
+  </div>
+
+  <iframe id="gform-iframe" name="gform-iframe" title="google-form" hidden></iframe>
+  <script src="questions.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
