@@ -91,6 +91,28 @@
         <div id="section-scores" class="section-scores"></div>
         <div id="comments" class="comments"></div>
 
+        <div class="report-wrap">
+          <div id="report-card" class="report-card">
+            <p class="report-kicker">우리학원 · 영어 진단평가</p>
+            <p id="report-date" class="report-date"></p>
+            <div class="report-who">
+              <span>이름 <b id="report-name"></b></span>
+              <span>학년 <b id="report-grade"></b></span>
+            </div>
+            <div class="report-score">
+              <span class="meta-label">SCORE</span>
+              <div id="report-digits" class="report-digits"></div>
+              <p id="report-raw" class="score-sub"></p>
+            </div>
+            <p id="report-sections" class="report-sections"></p>
+            <div class="report-comment-block">
+              <span class="meta-label">총평</span>
+              <p id="report-comment"></p>
+            </div>
+          </div>
+          <button type="button" id="btn-save-report" class="cta ghost">이미지 저장</button>
+        </div>
+
         <form id="consult-form" class="consult">
           <p class="panel-kicker">💬 상담 신청</p>
           <p class="panel-help">틀린 문항 해설은 위와 같아요. 상담을 원하면 번호를 입력해 주세요.</p>
@@ -116,6 +138,7 @@
   </div>
 
   <iframe id="gform-iframe" name="gform-iframe" title="google-form" hidden></iframe>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <script src="questions.js"></script>
   <script src="app.js"></script>
 </body>

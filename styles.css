@@ -357,7 +357,91 @@ body {
 .comments {
   display: grid;
   gap: 10px;
-  margin-bottom: 28px;
+  margin-bottom: 20px;
+}
+.report-wrap {
+  margin-bottom: 8px;
+}
+.report-card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 18px 16px 20px;
+  background: #0b0a08;
+}
+.report-kicker {
+  margin: 0;
+  text-align: center;
+  color: var(--muted);
+  font-size: 12px;
+  letter-spacing: .04em;
+}
+.report-date {
+  margin: 4px 0 14px;
+  text-align: center;
+  color: #6d6454;
+  font-size: 12px;
+}
+.report-who {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 14px;
+  margin-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 13px;
+}
+.report-who b { color: var(--letter); font-weight: 600; }
+.report-score { text-align: center; margin-bottom: 14px; }
+.report-digits {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+}
+.report-digit {
+  position: relative;
+  width: 34px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(#222018, #14120e);
+  border: 1px solid var(--flap-edge);
+  border-radius: 4px;
+  font-family: Oswald, sans-serif;
+  font-size: 26px;
+  letter-spacing: 0;
+  overflow: hidden;
+}
+.report-digit::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  background: #000;
+  opacity: .55;
+}
+.report-sections {
+  margin: 0 0 16px;
+  text-align: center;
+  color: var(--letter);
+  font-size: 14px;
+  letter-spacing: .02em;
+}
+.report-comment-block .meta-label { margin-bottom: 8px; }
+.report-comment-block p {
+  margin: 0;
+  color: var(--letter);
+  font-size: 14px;
+  line-height: 1.55;
+  text-align: center;
+}
+.cta.ghost {
+  margin-top: 10px;
+  background: transparent;
+  color: var(--cream, var(--letter));
+  border: 1px solid var(--line);
 }
 .comment {
   border: 1px solid var(--line);

@@ -341,10 +341,88 @@ function renderResult() {
       </article>
     `).join("");
   }
+  fillReport(by, raw, percent);
   document.getElementById("consult-name").value = state.name;
   document.getElementById("consult-grade").value = window.GRADE_LABEL[state.grade];
   document.getElementById("consult-phone").value = "";
   document.getElementById("consult-msg").hidden = true;
+}
+
+function isWeak(section, by) {
+  if (section === "vocab") return by.vocab.ok < 5;
+  if (section === "grammar") return by.grammar.ok < 2;
+  return by.reading.ok < 2;
+}
+
+function reportComment(by) {
+  const weak = ["vocab", "grammar", "reading"].filter((key) => isWeak(key, by));
+  const key = weak.slice().sort().join("+");
+  const lines = {
+    "": "전 영역 기본기가 안정적이라, 이제는 난도 높은 문제로 실력을 끌어올릴 단계입니다.",
+    vocab: "문법과 독해는 무난하지만, 어휘력이 부족해 풀이가 어려운 상황입니다.",
+    grammar: "어휘와 독해는 무난하지만, 문법은 지금 정확히 짚고 넘어가야 합니다.",
+    reading: "어휘와 문법은 괜찮지만, 독해에서 문장 흐름을 읽는 힘이 더 필요합니다.",
+    "grammar+vocab": "독해는 괜찮지만, 어휘와 문법 기초가 약해 정확도부터 끌어올려야 합니다.",
+    "reading+vocab": "문법은 괜찮지만, 어휘 부족이 독해까지 이어져 어휘 공부가 시급합니다.",
+    "grammar+reading": "어휘는 괜찮지만, 문법 이해가 약해 독해 정확도가 떨어지고 있습니다.",
+    "grammar+reading+vocab": "세 영역 모두 기본기가 부족해, 당장은 진도보다 기초를 다시 다지는 게 우선입니다."
+  };
+  return lines[key] || "기본기가 한쪽에 치우쳐 있어, 약한 영역부터 순서 있게 보완해야 합니다.";
+}
+
+function fillReport(by, raw, percent) {
+  const now = new Date();
+  const date = `${now.getFullYear()}.${String(now.getMonth() + 1).padStart(2, "0")}.${String(now.getDate()).padStart(2, "0")}`;
+  document.getElementById("report-date").textContent = date;
+  document.getElementById("report-name").textContent = state.name;
+  document.getElementById("report-grade").textContent = window.GRADE_LABEL[state.grade];
+  const digits = String(percent).padStart(3, "0").split("");
+  document.getElementById("report-digits").innerHTML = digits
+    .map((d) => `<span class="report-digit">${d}</span>`)
+    .join("");
+  document.getElementById("report-raw").textContent = `${raw}/16`;
+  document.getElementById("report-sections").textContent =
+    `어휘 ${by.vocab.ok}/${by.vocab.n}  ·  문법 ${by.grammar.ok}/${by.grammar.n}  ·  독해 ${by.reading.ok}/${by.reading.n}`;
+  document.getElementById("report-comment").textContent = reportComment(by);
+}
+
+async function saveReport() {
+  const btn = document.getElementById("btn-save-report");
+  const card = document.getElementById("report-card");
+  if (typeof html2canvas !== "function") {
+    btn.textContent = "저장 기능을 불러오지 못했습니다.";
+    return;
+  }
+  const prev = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = "저장 중...";
+  try {
+    const canvas = await html2canvas(card, {
+      backgroundColor: "#0b0a08",
+      scale: 2,
+      useCORS: true
+    });
+    const blob = await new Promise((resolve) => canvas.toBlob(resolve, "image/png"));
+    const file = new File([blob], "우리학원-진단지.png", { type: "image/png" });
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      await navigator.share({ files: [file], title: "우리학원 영어 진단평가" });
+    } else {
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = file.name;
+      a.click();
+      URL.revokeObjectURL(a.href);
+    }
+  } catch (err) {
+    btn.textContent = "저장에 실패했습니다.";
+    setTimeout(() => {
+      btn.disabled = false;
+      btn.textContent = prev;
+    }, 1600);
+    return;
+  }
+  btn.disabled = false;
+  btn.textContent = prev;
 }
 
 function startTest() {
@@ -453,6 +531,7 @@ function bindStart() {
   document.getElementById("btn-enter").addEventListener("click", enterLobby);
   document.getElementById("btn-start").addEventListener("click", startTest);
   document.getElementById("consult-form").addEventListener("submit", submitConsult);
+  document.getElementById("btn-save-report").addEventListener("click", saveReport);
   tickClock();
   setInterval(tickClock, 1000);
   setFlap(document.getElementById("welcome-hello"), "WELCOME", 7, { duration: 3000, stagger: 50 });
