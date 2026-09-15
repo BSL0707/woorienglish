@@ -319,7 +319,7 @@ function tally() {
 function renderResult() {
   showScreen("screen-result");
   const { by, wrong, raw, percent } = tally();
-  setFlap(document.getElementById("score-board"), String(percent).padStart(3, "0"), 3, { minSpins: 14, stagger: 90 });
+  setFlap(document.getElementById("score-board"), String(percent).padStart(2, "0").slice(-2), 2, { minSpins: 10, stagger: 70 });
   document.getElementById("score-sub").textContent =
     `${window.GRADE_LABEL[state.grade]} · ${raw}/16`;
   document.getElementById("section-scores").innerHTML = `
