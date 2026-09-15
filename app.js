@@ -268,7 +268,7 @@ function currentItem() {
 function renderQuiz() {
   const item = currentItem();
   const n = String(state.index + 1).padStart(2, "0");
-  setFlap(document.getElementById("progress-board"), `${n} / 16`, 7, { minSpins: 3, stagger: 30 });
+  setFlap(document.getElementById("progress-board"), `${n}/16`, 5, { minSpins: 3, stagger: 30 });
   setFlap(document.getElementById("section-board"), SECTION_FLAP[item.section], 8, { minSpins: 6, stagger: 35 });
   const passage = document.getElementById("passage");
   if (item.passage) {
@@ -319,7 +319,7 @@ function tally() {
 function renderResult() {
   showScreen("screen-result");
   const { by, wrong, raw, percent } = tally();
-  setFlap(document.getElementById("score-board"), String(percent).padStart(2, "0").slice(-2), 2, { minSpins: 10, stagger: 70 });
+  setFlap(document.getElementById("score-board"), String(percent).padStart(3, "0"), 3, { minSpins: 14, stagger: 90 });
   document.getElementById("score-sub").textContent =
     `${window.GRADE_LABEL[state.grade]} · ${raw}/16`;
   document.getElementById("section-scores").innerHTML = `
